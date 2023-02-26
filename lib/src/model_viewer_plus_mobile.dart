@@ -20,6 +20,9 @@ import 'html_builder.dart';
 
 import 'model_viewer_plus.dart';
 
+
+
+
 class ModelViewerState extends State<ModelViewer> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
@@ -144,10 +147,15 @@ class ModelViewerState extends State<ModelViewer> {
           }
           return NavigationDecision.prevent;
         },
+        gestureNavigationEnabled: false,
         onPageStarted: (final String url) {
           //debugPrint('>>>> ModelViewer began loading: <$url>'); // DEBUG
         },
-        onPageFinished: (final String url) {
+        onPageFinished: (final String url) async {
+          widget.onPageFinished?.call(await _controller.future);
+          // widget.onPageFinished
+
+          // (await _controller.future).runJavascript('ok();');
           //debugPrint('>>>> ModelViewer finished loading: <$url>'); // DEBUG
         },
         onWebResourceError: (final WebResourceError error) {
@@ -325,6 +333,9 @@ class ModelViewerState extends State<ModelViewer> {
       }
     });
   }
+
+
+
 
   Future<Uint8List> _readAsset(final String key) async {
     final data = await rootBundle.load(key);

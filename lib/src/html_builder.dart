@@ -74,6 +74,7 @@ abstract class HTMLBuilder {
     final String? relatedJs,
     final String? id,
     final bool? debugLogging,
+    final PowerPreference? powerPreference,
   }) {
     if (relatedCss != null) {
       htmlTemplate = htmlTemplate.replaceFirst('/* other-css */', relatedCss);
@@ -109,6 +110,19 @@ abstract class HTMLBuilder {
           break;
       }
     }
+// powerPreference
+
+    if (powerPreference != null) {
+      switch (powerPreference) {
+        case PowerPreference.highPerformance:
+          modelViewerHtml.write(' powerPreference="high-performance"');
+          break;
+        case PowerPreference.lowPower:
+          modelViewerHtml.write(' powerPreference="low-power"');
+          break;
+      }
+    }
+
     // reveal
     if (reveal != null) {
       switch (reveal) {

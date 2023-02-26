@@ -7,6 +7,8 @@ import 'model_viewer_plus_stub.dart'
 
 import 'shim/dart_html_fake.dart' if (dart.library.html) 'dart:html';
 
+enum PowerPreference { lowPower, highPerformance }
+
 enum Loading { auto, lazy, eager }
 
 enum Reveal { auto, interaction, manual }
@@ -85,6 +87,8 @@ class ModelViewer extends StatefulWidget {
     this.overwriteNodeValidatorBuilder,
     this.javascriptChannels,
     this.onWebViewCreated,
+    this.onPageFinished,
+    this.powerPreference,
   }) : super(key: key);
 
   // Loading Attributes
@@ -576,6 +580,8 @@ class ModelViewer extends StatefulWidget {
   /// Defaults to true;
   final bool? debugLogging;
 
+  final Function(WebViewController)? onPageFinished;
+
   /// Customize allowed tags & attrubutes for Web platform.
   ///
   /// Solution of console output `Removing disallowed attribute ...`.
@@ -621,6 +627,8 @@ class ModelViewer extends StatefulWidget {
   ///
   /// Called *after* the logic that initializes the model-viewer.
   final Function(WebViewController controller)? onWebViewCreated;
+
+  final PowerPreference? powerPreference;
 
   @override
   State<ModelViewer> createState() => ModelViewerState();
